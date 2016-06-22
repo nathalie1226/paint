@@ -1,0 +1,45 @@
+div.sC{
+    margin-top:10px;
+}
+
+div.pix.one{
+    border: 1px solid black;
+    height:10px;
+    width:10px;
+
+}
+
+div.colomn{
+    display:inline-block;
+    margin-top:20px;
+}
+
+button.color{
+    height:50px;
+    width:50px;
+    margin-left:10px;
+}
+
+button#white{
+    background-color:white;
+}
+button#clear{
+    height:50px;
+    width:50px;
+    margin-left:10px;
+}
+button#red{
+    background-color:red;
+}
+button#blue{
+    background-color:blue;
+}
+button#green{
+    background-color:green;
+}
+button#yellow{
+    background-color:yellow;
+}
+button#pink{
+    background-color:pink;
+}
