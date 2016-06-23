@@ -2,8 +2,10 @@
  * Created by itc_user on 6/21/2016.
  */
 //default value for the color and for the canvas size
-var color="blue";
+
 var canvasSize=50;
+var arrColor=["white","red","blue","green","yellow","pink"];
+var color=arrColor[2];
 
 //generating the color pallet i want 6 colors and a clear button
 var div1= document.createElement('div');
@@ -16,35 +18,19 @@ for (var c=0;c<6;c++){
     button.id=c;
     span1.appendChild(button);
 }
+//changing the id and the value of the buttons
+for (var i=0;i<arrColor.length;i++){
+    document.getElementById(i).value=arrColor[i];
+    document.getElementById(i).id=arrColor[i];
+}
 
 // creating the clear button
 var clearButton= document.createElement('button');
-clearButton.className="bou";
 clearButton.id="clear";
+
 clearButton.value="clear";
 document.body.appendChild(clearButton);
 document.getElementById("clear").textContent="Clear";
-
-
-//changing the id of the buttons
-document.getElementById(0).id="white";
-document.getElementById(1).id="red";
-document.getElementById(2).id="blue";
-document.getElementById(3).id="green";
-document.getElementById(4).id="yellow";
-document.getElementById(5).id="pink";
-
-
-//changing the value of the buttons
-
-document.getElementById("white").value="white";
-document.getElementById("red").value="red";
-document.getElementById("blue").value="blue";
-document.getElementById("green").value="green";
-document.getElementById("yellow").value="yellow";
-document.getElementById("pink").value="pink";
-
-
 
 
 //creating a labelled input to ask the user what size he wants the canvas to be
@@ -68,19 +54,8 @@ divInput.appendChild(input);
 divInput.appendChild(buttonSubmit);
 document.body.appendChild(divInput);
 
-//generating a canvas
-// canvasSize=document.getElementById("size").value;
-// for (x = 0; x < 50; x++) {
-//     var divC = document.createElement("div");
-//     divC.className = "colomn";
-//     document.body.appendChild(divC);
-//     for (var p = 0; p < 50; p++) {
-//         var pixe = document.createElement("div");
-//         pixe.className = "pix one";
-//         divC.appendChild(pixe);
-//     }
-//     }
 
+var imouseDown=false;
 //generating the canvas according to the user's choice of size for it
 function generateCanvas () {
     canvasSize=document.getElementById("size").value;
@@ -95,36 +70,29 @@ function generateCanvas () {
         }
     }
     for (var i=0;i<draw.length;i++) {
-        draw[i].addEventListener("click", drawingColor);
+        draw[i].addEventListener("mousedown", clickMouseDown);
+        draw[i].addEventListener("mouseover", drawingColor);
+        draw[i].addEventListener("mouseup", clickMouseUp);
         draw[i].addEventListener("contextmenu", erase);
         draw[i].addEventListener("dblclick", erase);
 
     }
 }
+function clickMouseDown(){
+    imouseDown=true;
+}
+function clickMouseUp(){
+    imouseDown=false;
+}
 
 
 //function that changes the value of "color" according to the button that was pressed by the user (when he chose the color)
-function changeColor(clickEvent){
-    var btn1=clickEvent.target;
-console.log(btn1.value);
-
-    if (btn1.value.toUpperCase()==="RED"){
-        color="red";
-    }
-    else if (btn1.value.toUpperCase()==="BLUE"){
-        color="blue";
-    }
-    else if (btn1.value.toUpperCase()==="YELLOW"){
-        color="yellow";
-    }
-    else if (btn1.value.toUpperCase()==="GREEN"){
-        color="green";
-    }
-    else if (btn1.value.toUpperCase()==="PINK"){
-        color="pink";
-    }
-    else if (btn1.value.toUpperCase()==="WHITE"){
-        color="white";
+function changeColor(clickEvent) {
+    var btn1 = clickEvent.target;
+    for (var i = 0; i < arrColor.length; i++) {
+        if (btn1.value === arrColor[i]) {
+            color = arrColor[i];
+        }
     }
 }
 
@@ -145,27 +113,11 @@ function erase(clickEvent){
 //function that changes the color of the pixels that the user clicked on according to the color the user selected before
 function drawingColor(clickEvent){
     var btn=clickEvent.target;
-    if (color.toUpperCase()==="RED"){
-        btn.style.backgroundColor="red";
+    if (imouseDown===true)
+    {
+        btn.style.backgroundColor= color;
     }
-    else if (color.toUpperCase()==="WHITE"){
-        btn.style.backgroundColor="white";
-    }
-    else if (color.toUpperCase()==="BLUE"){
-        btn.style.backgroundColor="blue";
-    }
-    else if (color.toUpperCase()==="YELLOW"){
-        btn.style.backgroundColor="yellow";
-    }
-    else if (color.toUpperCase()==="GREEN"){
-        btn.style.backgroundColor="green";
-    }
-    else if (color.toUpperCase()==="PINK"){
-        btn.style.backgroundColor="pink";
-    }
-    else {
-        btn.style.backgroundColor="white";
-    }
+
 }
 
 //making sure the function generateCanvas works when the button submit is clicked on submit
@@ -174,12 +126,7 @@ sub.addEventListener("click",generateCanvas);
 
 //making sure the function drawingColor works every time a pixels is clicked on in the canvas
 var draw=document.getElementsByClassName("pix");
-// for (var i=0;i<draw.length;i++) {
-//     draw[i].addEventListener("click", drawingColor);
-//     draw[i].addEventListener("mousover", erase);
-//
-//
-// }
+
 
 //making the function changeColor works every time a "color" button is pressed
 var currentColor=document.getElementsByClassName("color");
@@ -192,4 +139,4 @@ var suppr=document.getElementById("clear");
 suppr.addEventListener("click",clearAll);
 
 
-
+   
