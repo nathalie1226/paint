@@ -108,7 +108,7 @@ function changeColor(clickEvent) {
 //function clear all that was drawn in the canvas
 function clearAll(clickevent) {
     var all = document.getElementsByClassName("pix");
-    for (var i = 0; i < draw.length; i++) {
+    for (var i = 0; i < all.length; i++) {
         all[i].style.backgroundColor = "white";
     }
 }
