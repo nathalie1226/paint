@@ -6,57 +6,78 @@
 var canvasSize = 50;
 var arrColor = ["white", "red", "blue", "green", "yellow", "pink"];
 var color = arrColor[2];
+var imouseDown = false;
 
-var createColorPallet = function () {
+ function createColorPallet() {
 //todo run when page loads
 //generating the color pallet i want 6 colors and a clear button
-    var div1 = document.createElement('div');
-    div1.className = "Colors";
-    var span1 = document.createElement('div');
-    document.body.appendChild(span1);
+    var divC = document.createElement('div');
+    divC.className = "Colors";
+    document.body.appendChild(divC);
     for (var c = 0; c < 6; c++) {
         var button = document.createElement('button');
         button.className = "color";
         button.id = arrColor[c];
         button.value = arrColor[c];
-        span1.appendChild(button);
+        divC.appendChild(button);
     }
 
     // creating the clear button
     var clearButton = document.createElement('button');
     clearButton.id = "clear";
-
     clearButton.value = "clear";
     clearButton.textContent = "Clear";
     document.body.appendChild(clearButton);
 
+     //creating a labelled input to ask the user what size he wants the canvas to be
+     var divInput = document.createElement("div");
+     divInput.id = "inputField";
+     var label = document.createElement("label");
+     label.className = "sizeCanvas";
+     label.textContent = "what size do you want the canvas to be?";
+     var input = document.createElement("input");
+     input.type = "number";
+     input.id = "size";
+     input.className = "sizeCanvas";
+     var buttonSubmit = document.createElement("button");
+     buttonSubmit.id = "submit";
+     buttonSubmit.textContent = "Submit";
+
+
+    //putting my new elements in the body
+     divInput.appendChild(label);
+     divInput.appendChild(input);
+     divInput.appendChild(buttonSubmit);
+     document.body.appendChild(divInput);
 };
 
-
 createColorPallet();
-//creating a labelled input to ask the user what size he wants the canvas to be
-var divInput = document.createElement("div");
-divInput.id = "inputField";
-var label = document.createElement("label");
-label.className = "sizeCanvas";
-label.textContent = "what size do you want the canvas to be?";
-var input = document.createElement("input");
-input.type = "number";
-input.id = "size";
-input.className = "sizeCanvas";
-var buttonSubmit = document.createElement("button");
-buttonSubmit.id = "submit";
-buttonSubmit.textContent = "Submit";
 
+//function that changes the value of "color" according to the button that was pressed by the user (when he chose the color)
+function changeColor(clickEvent) {
+    var btn1 = clickEvent.target;
+    for (var i = 0; i < arrColor.length; i++) {
+        if (btn1.value === arrColor[i]) {
+            color = arrColor[i];
+        }
+    }
+}
 
-//putting my new elements in the body
-divInput.appendChild(label);
-divInput.appendChild(input);
-divInput.appendChild(buttonSubmit);
-document.body.appendChild(divInput);
+//function that changes the color of the pixels that the user clicked on according to the color the user selected before
+function drawingColor(clickEvent) {
+    var btn = clickEvent.target;
+    if (imouseDown === true) {
+        btn.style.backgroundColor = color;
+    }
 
+}
 
-var imouseDown = false;
+//making the function changeColor works every time a "color" button is pressed
+var currentColor = document.getElementsByClassName("color");
+for (var j = 0; j < currentColor.length; j++) {
+    currentColor[j].addEventListener("click", changeColor);
+}
+
 //generating the canvas according to the user's choice of size for it
 function generateCanvas() {
 
@@ -87,6 +108,13 @@ function generateCanvas() {
 
 
 }
+
+//making sure the function generateCanvas works when the button submit is clicked on submit
+var sub = document.getElementById("submit");
+sub.addEventListener("click", generateCanvas);
+
+
+// creating two functions that will allow me to know when the mouse is down and to only do a mousover when the mouse is down
 function clickMouseDown() {
     imouseDown = true;
 }
@@ -94,16 +122,6 @@ function clickMouseUp() {
     imouseDown = false;
 }
 
-
-//function that changes the value of "color" according to the button that was pressed by the user (when he chose the color)
-function changeColor(clickEvent) {
-    var btn1 = clickEvent.target;
-    for (var i = 0; i < arrColor.length; i++) {
-        if (btn1.value === arrColor[i]) {
-            color = arrColor[i];
-        }
-    }
-}
 
 //function clear all that was drawn in the canvas
 function clearAll(clickevent) {
@@ -113,35 +131,23 @@ function clearAll(clickevent) {
     }
 }
 
+// making sure the function clear works when the button clear is clicked on submit
+var suppr = document.getElementById("clear");
+suppr.addEventListener("click", clearAll);
+
+
+//creating a function erase that allows the user to erase a pixel when clicking mouseright;
 function erase(clickEvent) {
     clickEvent.preventDefault();
     var btn = clickEvent.target;
     btn.style.backgroundColor = "white";
 }
 
-//function that changes the color of the pixels that the user clicked on according to the color the user selected before
-function drawingColor(clickEvent) {
-    var btn = clickEvent.target;
-    if (imouseDown === true) {
-        btn.style.backgroundColor = color;
-    }
-
-}
-
-//making sure the function generateCanvas works when the button submit is clicked on submit
-var sub = document.getElementById("submit");
-sub.addEventListener("click", generateCanvas);
 
 
-//making the function changeColor works every time a "color" button is pressed
-var currentColor = document.getElementsByClassName("color");
-for (var j = 0; j < currentColor.length; j++) {
-    currentColor[j].addEventListener("click", changeColor);
-}
 
-// making sure the function clear works when the button clear is clicked on submit
-var suppr = document.getElementById("clear");
-suppr.addEventListener("click", clearAll);
+
+
 
 
 
